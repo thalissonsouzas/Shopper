@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -81,18 +82,30 @@ export class MeasureService {
   }
 
   async confirmMeasure(body: any) {
+    if (!body.measure_uuid || !body.confirmed_value) {
+      throw new BadRequestException({
+        error_code: 'INVALID_DATA',
+        error_description: 'É necessário informar measure_uuid e confirmed_value',
+      });
+    }
+
     const hasMeasure = await this.measureModel.findOne({
       measure_uuid: body.measure_uuid,
     });
 
     if (hasMeasure === null) {
-      throw new BadRequestException({
+      throw new NotFoundException({
         error_code: 'INVALID_DATA',
         error_description: 'Leitura não encontrada',
       });
     }
 
-    console.log(body, hasMeasure);
+    if (hasMeasure.has_confirmed) {
+      throw new ConflictException({
+        error_code: 'CONFIRMATION_DUPLICATE',
+        error_description: 'Leitura do mês já realizada',
+      });
+    }
 
     await this.measureModel.updateMany(
       { measure_uuid: body.measure_uuid },
