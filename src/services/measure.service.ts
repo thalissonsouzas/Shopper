@@ -17,7 +17,7 @@ export class MeasureService {
   async listMeasuresByCustomer(customer: string, measure_type?: string) {
     if (measure_type) {
       const response = await this.measureModel
-        .find({ customer_code: customer, measure_type: measure_type })
+        .find({ customer_code: customer, measure_type: measure_type.toUpperCase() })
         .select(
           'measure_uuid measure_datetime measure_type has_confirmed image_url -_id',
         );
