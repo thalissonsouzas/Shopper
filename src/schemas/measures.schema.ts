@@ -22,6 +22,9 @@ export class Measure {
 
   @Prop({ type: Date })
   measure_datetime: Date;
+
+  @Prop()
+  has_confirmed: boolean;
 }
 
 export const MeasureSchema = SchemaFactory.createForClass(Measure);

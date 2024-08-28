@@ -14,7 +14,15 @@ export class MeasureService {
   ) {}
 
   async listMeasuresByCustomer(customer: string) {
-    return await this.measureModel.find({ customer_code: customer });
+    const response = await this.measureModel
+      .find({ customer_code: customer })
+      .select(
+        'measure_uuid measure_datatime measure_type measure_value image_url -_id',
+      );
+    return {
+      customer_code: customer,
+      measures: response,
+    };
   }
 
   async create(body: Measure) {
@@ -23,6 +31,16 @@ export class MeasureService {
       throw new BadRequestException({
         error_code: 'INVALID_DATA',
         error_description:'Os dados fornecidos no corpo da requisição são inválidos',
+      });
+    }
+
+    if (
+      body.measure_type.toUpperCase() !== 'GAS' &&
+      body.measure_type.toUpperCase() !== 'WATER'
+    ) {
+      throw new BadRequestException({
+        error_code: 'INVALID_DATA',
+        error_description: 'Tipo de medida inválido',
       });
     }
 
@@ -47,7 +65,7 @@ export class MeasureService {
           },
         },
         { customer_code: body.customer_code },
-        { measure_type: body.measure_type },
+        { measure_type: body.measure_type.toUpperCase() },
       ],
     });
 
@@ -60,5 +78,27 @@ export class MeasureService {
 
     await this.measureModel.create(body);
     return { message: 'Measure created successfully', status: 200 };
+  }
+
+  async confirmMeasure(body: any) {
+    const hasMeasure = await this.measureModel.findOne({
+      measure_uuid: body.measure_uuid,
+    });
+
+    if (hasMeasure === null) {
+      throw new BadRequestException({
+        error_code: 'INVALID_DATA',
+        error_description: 'Leitura não encontrada',
+      });
+    }
+
+    console.log(body, hasMeasure);
+
+    await this.measureModel.updateMany(
+      { measure_uuid: body.measure_uuid },
+      { $set: { measure_value: body.confirmed_value, has_confirmed: true } },
+    );
+
+    return { sucess: true };
   }
 }

@@ -1,5 +1,4 @@
 import { GoogleGenerativeAI, Part } from '@google/generative-ai';
-
 const genAI = new GoogleGenerativeAI('AIzaSyAUu-o17IJ7181e6Rcli0OHYwdjc2KPTck');
 
 const generationConfig = {
@@ -14,12 +13,10 @@ const model = genAI.getGenerativeModel({
 });
 
 async function generateContent(base64: string) {
-//   const imagepath = 'src/relogio.jpg';
-//   const imagedata = await fs.readFile(imagepath);
-//   const imageformat = imagedata.toString('base64');
-
   const parts = [
-    { text: 'me retorne uma string com o valor da medição do relógio' },
+    {
+      text: 'essa é uma foto de leitura de conta de energia, agua ou gás, me informe somente os numeros do consumo',
+    },
     {
       inlineData: {
         mimeType: 'image/jpg',

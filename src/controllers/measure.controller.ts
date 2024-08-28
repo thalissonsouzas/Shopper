@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -35,6 +36,7 @@ export class MeasureController {
     @Body() body: any,
   ) {
     const base64 = file.buffer.toString('base64');
+
     const id = uuid();
 
     // todo: get measure value from Gemini.
@@ -42,11 +44,19 @@ export class MeasureController {
 
     return await this.measureService.create({
       customer_code: body.customer_code,
-      image_url: `data:${file.mimetype};charset=${file.encoding};base64,${base64}`,
+      image_url: 'link imagem',
+      // image_url: `data:${file.mimetype};charset=${file.encoding};base64,${base64}`,
       measure_type: body.measure_type,
       measure_datetime: body.measure_datetime,
       measure_uuid: id,
       measure_value: measure_value,
+      has_confirmed: false,
     });
+  }
+
+  @Patch('/confirm')
+  @HttpCode(200)
+  confirmMeasure(@Body() body: any) {
+    return this.measureService.confirmMeasure(body);
   }
 }
