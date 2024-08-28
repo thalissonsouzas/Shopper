@@ -16,8 +16,20 @@ export class MeasureService {
 
   async listMeasuresByCustomer(customer: string, measure_type?: string) {
     if (measure_type) {
+      if (
+        measure_type.toUpperCase() !== 'GAS' &&
+        measure_type.toUpperCase() !== 'WATER'
+      ) {
+        throw new BadRequestException({
+          error_code: 'INVALID_TYPE',
+          error_description: 'Tipo de medição não permitida',
+        });
+      }
       const response = await this.measureModel
-        .find({ customer_code: customer, measure_type: measure_type.toUpperCase() })
+        .find({
+          customer_code: customer,
+          measure_type: measure_type.toUpperCase(),
+        })
         .select(
           'measure_uuid measure_datetime measure_type has_confirmed image_url -_id',
         );
