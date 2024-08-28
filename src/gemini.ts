@@ -15,7 +15,7 @@ const model = genAI.getGenerativeModel({
 async function generateContent(base64: string) {
   const parts = [
     {
-      text: 'essa é uma foto de leitura de conta de energia, agua ou gás, me informe somente os numeros do consumo',
+      text: 'essa é uma foto de leitura de conta de energia, agua ou gás, me informe somente os numeros do consumo, nunca me informe mais de um numero, na dǘvida ou quando não encontrar, me envie 0000',
     },
     {
       inlineData: {

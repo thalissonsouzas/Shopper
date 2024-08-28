@@ -18,7 +18,7 @@ export class MeasureService {
     const response = await this.measureModel
       .find({ customer_code: customer })
       .select(
-        'measure_uuid measure_datatime measure_type measure_value image_url -_id',
+        'measure_uuid measure_datetime measure_type has_confirmed image_url -_id',
       );
     return {
       customer_code: customer,
