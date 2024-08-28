@@ -14,12 +14,37 @@ export class MeasureService {
     @InjectModel(Measure.name) private measureModel: Model<Measure>,
   ) {}
 
-  async listMeasuresByCustomer(customer: string) {
+  async listMeasuresByCustomer(customer: string, measure_type?: string) {
+    if (measure_type) {
+      const response = await this.measureModel
+        .find({ customer_code: customer, measure_type: measure_type })
+        .select(
+          'measure_uuid measure_datetime measure_type has_confirmed image_url -_id',
+        );
+
+      if (response.length === 0) {
+        throw new NotFoundException({
+          error_code: 'MEASURES_NOT_FOUND',
+          error_description: 'Nenhuma leitura encontrada',
+        });
+      }
+      return {
+        customer_code: customer,
+        measures: response,
+      };
+    }
     const response = await this.measureModel
       .find({ customer_code: customer })
       .select(
         'measure_uuid measure_datetime measure_type has_confirmed image_url -_id',
       );
+
+    if (response.length === 0) {
+      throw new NotFoundException({
+        error_code: 'MEASURES_NOT_FOUND',
+        error_description: 'Nenhuma leitura encontrada',
+      });
+    }
     return {
       customer_code: customer,
       measures: response,

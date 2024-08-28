@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -24,8 +25,8 @@ export class MeasureController {
   }
 
   @Get('/:customer/list')
-  getMeasuresByCustomer(@Param('customer') customer: string) {
-    return this.measureService.listMeasuresByCustomer(customer);
+  async getMeasuresByCustomer(@Param('customer') customer: string, @Query('measure_type') measure_type: string) {
+    return await this.measureService.listMeasuresByCustomer(customer, measure_type);
   }
 
   @Post('/upload')
