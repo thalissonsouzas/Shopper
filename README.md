@@ -1,85 +1,65 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+![TypeScript](https://img.shields.io/badge/TypeScript-v5.0.0-blue)
+![NestJS](https://img.shields.io/badge/NestJS-v10.0.0-EA484A)
+![MongoDB](https://img.shields.io/badge/MongoDB-v6.0.0-green)
+![Docker](https://img.shields.io/badge/Docker-v20.10.8-blue)
+![API](https://img.shields.io/badge/API-REST-yellow)
+[Google Gemini]
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Image Reading Service
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Bem-vindo ao projeto do teste técnico da Shopper! Este projeto é uma API para o gerenciamento e leitura de medidores de água e gás utilizando tecnologia de IA para processar imagens.
 
-## Description
+## 💡 Descrição
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Este projeto tem como objetivo fornecer uma API para a leitura e gerenciamento de medidores de água e gás. O usuário envia uma foto da leitura do medidor e o backend utiliza tecnologia de Inteligência Artificial para processar a imagem, extrair o valor da medição e salvar as informações em um banco de dados.
 
-## Project setup
+## 🚀 Funcionalidades
 
+- **Recepção de Imagens**: Recebe imagens contendo a leitura de medidores e converte em formato base64.
+- **Processamento de Imagens**: Utiliza a API Google Gemini para extrair valores numéricos das imagens enviadas.
+- **Armazenamento de Dados**: Salva as medições e detalhes pertinentes no banco de dados MongoDB.
+- **Endpoints Principais**:
+  - `POST /upload`: Recebe uma imagem, consulta a API Gemini, salva no banco de dados e retorna o status.
+  - `PATCH /confirm`: Permite confirmar ou corrigir o valor da medição lido pela IA.
+  - `GET /:customer/list`: Lista todas as medições realizadas por um cliente, com a opção de filtrar por tipo de medição.
+
+## 🧩 Tecnologias Usadas
+
+- **Backend**: Node.js, NestJS, TypeScript
+- **Banco de Dados**: MongoDB
+- **Gerenciamento de Containers**: Docker
+- **Integração LLM**: Google Gemini
+
+## 📜 Documentação da API Gemini
+
+Para detalhes sobre a API do Google Gemini, consulte a [documentação técnica](https://ai.google.dev/gemini-api/docs/api-key) e [documentação de visão](https://ai.google.dev/gemini-api/docs/vision).
+
+
+# Para rodar o projeto em sua máquina e conhecer o processo de inicialização, siga os seguintes passos:
+
+### 🏠 Clonando o Repositório
+
+Clone o repositório para sua máquina local:
 ```bash
-$ npm install
+     git clone git@github.com:
+     cd seu-repositorio
+```
+### 🛠️ Configuração do Ambiente
+Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
+```bash
+     GEMINI_API_KEY=<sua-chave-api-gemini>
+```
+### 🚀 Instalando Dependências
+Instale as dependências do projeto:
+```bash
+     npm install
+```
+### 🐳 Rodando o Projeto com Docker
+Para iniciar o projeto e todos os serviços necessários, utilize o Docker:
+```bash
+     docker-compose up --build
 ```
 
-## Compile and run the project
+### 📝 Testando a API
+Após iniciar o projeto, você pode testar os endpoints utilizando ferramentas como Postman ou Thunder Client. Certifique-se de que o Docker está rodando e que o ambiente está configurado corretamente.
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
