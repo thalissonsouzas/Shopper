@@ -41,7 +41,7 @@ Para detalhes sobre a API do Google Gemini, consulte a [documentação técnica]
 
 Clone o repositório para sua máquina local:
 ```bash
-     git clone git@github.com:
+     git clone git@github.com:thalissonsouzas/Shopper.git
      cd seu-repositorio
 ```
 ### 🛠️ Configuração do Ambiente
