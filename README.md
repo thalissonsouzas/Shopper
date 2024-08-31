@@ -42,7 +42,7 @@ Clone o repositório para sua máquina local:
 
 ```bash
      git clone git@github.com:thalissonsouzas/Shopper.git
-     cd SHOPPER
+     cd Shopper
 ```
 
 ### 🛠️ Configuração do Ambiente
