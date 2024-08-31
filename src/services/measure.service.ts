@@ -1,12 +1,12 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Measure } from 'src/schemas/measures.schema';
+import { MeasureType } from 'src/types/measure-type.enum';
+import { Measure } from '../schemas/measures.schema';
 
 @Injectable()
 export class MeasureService {
@@ -14,39 +14,14 @@ export class MeasureService {
     @InjectModel(Measure.name) private measureModel: Model<Measure>,
   ) {}
 
-  async listMeasuresByCustomer(customer: string, measure_type?: string) {
+  async listMeasuresByCustomer(customer: string, measure_type?: MeasureType) {
+    const filter: Record<string, any> = { customer_code: customer };
     if (measure_type) {
-      if (
-        measure_type.toUpperCase() !== 'GAS' &&
-        measure_type.toUpperCase() !== 'WATER'
-      ) {
-        throw new BadRequestException({
-          error_code: 'INVALID_TYPE',
-          error_description: 'Tipo de medição não permitida',
-        });
-      }
-      const response = await this.measureModel
-        .find({
-          customer_code: customer,
-          measure_type: measure_type.toUpperCase(),
-        })
-        .select(
-          'measure_uuid measure_datetime measure_type has_confirmed image_url -_id',
-        );
-
-      if (response.length === 0) {
-        throw new NotFoundException({
-          error_code: 'MEASURES_NOT_FOUND',
-          error_description: 'Nenhuma leitura encontrada',
-        });
-      }
-      return {
-        customer_code: customer,
-        measures: response,
-      };
+      filter['measure_type'] = measure_type;
     }
+
     const response = await this.measureModel
-      .find({ customer_code: customer })
+      .find(filter)
       .select(
         'measure_uuid measure_datetime measure_type has_confirmed image_url -_id',
       );
@@ -57,6 +32,7 @@ export class MeasureService {
         error_description: 'Nenhuma leitura encontrada',
       });
     }
+
     return {
       customer_code: customer,
       measures: response,
@@ -64,24 +40,6 @@ export class MeasureService {
   }
 
   async create(body: Measure) {
-    // Validação básica dos dados fornecidos no corpo da requisição
-    if (!body.customer_code || !body.measure_datetime || !body.measure_type) {
-      throw new BadRequestException({
-        error_code: 'INVALID_DATA',
-        error_description:'Os dados fornecidos no corpo da requisição são inválidos',
-      });
-    }
-
-    if (
-      body.measure_type.toUpperCase() !== 'GAS' &&
-      body.measure_type.toUpperCase() !== 'WATER'
-    ) {
-      throw new BadRequestException({
-        error_code: 'INVALID_DATA',
-        error_description: 'Tipo de medida inválido',
-      });
-    }
-
     const hasAnotherMeasure = await this.measureModel.findOne({
       $and: [
         {
@@ -115,17 +73,15 @@ export class MeasureService {
     }
 
     await this.measureModel.create(body);
-    return { message: 'Measure created successfully', status: 200 };
+
+    return {
+      image_url: body.image_url,
+      measure_value: body.measure_value,
+      measure_uuid: body.measure_uuid,
+    };
   }
 
   async confirmMeasure(body: any) {
-    if (!body.measure_uuid || !body.confirmed_value) {
-      throw new BadRequestException({
-        error_code: 'INVALID_DATA',
-        error_description: 'É necessário informar measure_uuid e confirmed_value',
-      });
-    }
-
     const hasMeasure = await this.measureModel.findOne({
       measure_uuid: body.measure_uuid,
     });
