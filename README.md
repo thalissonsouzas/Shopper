@@ -34,32 +34,42 @@ Este projeto tem como objetivo fornecer uma API para a leitura e gerenciamento d
 
 Para detalhes sobre a API do Google Gemini, consulte a [documentação técnica](https://ai.google.dev/gemini-api/docs/api-key) e [documentação de visão](https://ai.google.dev/gemini-api/docs/vision).
 
-
 # Para rodar o projeto em sua máquina e conhecer o processo de inicialização, siga os seguintes passos:
 
 ### 🏠 Clonando o Repositório
 
 Clone o repositório para sua máquina local:
+
 ```bash
      git clone git@github.com:thalissonsouzas/Shopper.git
-     cd seu-repositorio
+     cd SHOPPER
 ```
+
 ### 🛠️ Configuração do Ambiente
-Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
+
+Vá até o arquivo .env na raiz do projeto e adicione sua chave da API do GEMINI logo abaixo do endereço do nosso banco de dados:
+
 ```bash
+     MONGO_URL=mongodb://mongo:27017/shopper
      GEMINI_API_KEY=<sua-chave-api-gemini>
 ```
+
 ### 🚀 Instalando Dependências
+
 Instale as dependências do projeto:
+
 ```bash
      npm install
 ```
+
 ### 🐳 Rodando o Projeto com Docker
+
 Para iniciar o projeto e todos os serviços necessários, utilize o Docker:
+
 ```bash
-     docker-compose up --build
+     docker-compose up -d
 ```
 
 ### 📝 Testando a API
-Após iniciar o projeto, você pode testar os endpoints utilizando ferramentas como Postman ou Thunder Client. Certifique-se de que o Docker está rodando e que o ambiente está configurado corretamente.
 
+Após iniciar o projeto, você pode testar os endpoints utilizando ferramentas como Postman ou Thunder Client. Certifique-se de que o Docker esteja rodando e que o ambiente esteja configurado corretamente.
