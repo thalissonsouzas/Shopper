@@ -30,8 +30,11 @@ Este projeto tem como objetivo fornecer uma API para a leitura e gerenciamento d
 - **Gerenciamento de Containers**: Docker
 - **Integração LLM**: Google Gemini
 
-## [Assista à demonstração da aplicação](https://vimeo.com/1004717844/0f6d0aec41?share=copy)
-<img src="https://github.com/user-attachments/assets/e6dbb649-c833-48e2-9b66-5f910c3c7bc0" alt="thumb" width="300"/>
+## Assista à demonstração da aplicação
+<a href="https://vimeo.com/1004717844/0f6d0aec41?share=copy" target="_blank">
+    <img src="https://github.com/user-attachments/assets/e6dbb649-c833-48e2-9b66-5f910c3c7bc0" alt="thumb" width="300"/>
+</a>
+
 
 
 
