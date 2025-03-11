@@ -83,3 +83,77 @@ Para iniciar o projeto e todos os serviços necessários, utilize o Docker:
 ### 📝 Testando a API
 
 Após iniciar o projeto, você pode testar os endpoints utilizando ferramentas como Postman ou Thunder Client. Certifique-se de que o Docker esteja rodando e que o ambiente esteja configurado corretamente.
+
+
+
+## 🚨 Endpoints da API
+
+### 1. `POST /`
+- **Descrição**: Cadastro da leitura
+Exemplo: localhost:3000/upload
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>customer_code</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>measure_type</td>
+                <td>GAS</td>
+            </tr>
+            <tr>
+                <td>measure_datetime</td>
+                <td>2025-01-01</td>
+            </tr>
+            <tr>
+                <td>image(selecione type File)</td>
+                <td>/home/medicoes/relogio.jpg(selecione a imagem de leitura)</td>
+
+</td>
+            </tr>
+        </tbody>
+    </table>
+
+    RESPONSE: {
+    "image_url":"http://localhost:3000/media/6f2bb6af-a82e-424c-a146-1974e37d50a7.jpeg",
+    "measure_value":"14",
+    "measure_uuid":"6f2bb6af-a82e-424c-a146-1974e37d50a7"
+    }
+
+
+
+
+### 2. `GET /:customer/list` 
+- **Descrição**: Lista as medições para um cliente específico
+  Exemplo: localhost:3000/1/list
+
+  ``` RESPONSE: {
+  "customer_code": "1",
+  "measures": [
+    {
+      "measure_uuid": "35a9a469-c72c-4cda-b1f4-2597945c4d5a",
+      "image_url": "http://localhost:3000/media/35a9a469-c72c-4cda-b1f4-2597945c4d5a.jpeg",
+      "measure_type": "GAS",
+      "measure_datetime": "2025-01-10T00:00:00.000Z",
+      "has_confirmed": false
+    },
+    {
+      "measure_uuid": "76d84259-b5a2-46f9-95c9-adf1e4b7e097",
+      "image_url": "http://localhost:3000/media/76d84259-b5a2-46f9-95c9-adf1e4b7e097.jpeg",
+      "measure_type": "WATER",
+      "measure_datetime": "2025-01-10T00:00:00.000Z",
+      "has_confirmed": false
+    }
+  ]}
+
+
+
+
+
